@@ -7,6 +7,7 @@
     <groupId>ua.kiev.prog</groupId>
     <artifactId>chatserver</artifactId>
     <version>1.0.0</version>
+    <packaging>war</packaging>
 
     <properties>
         <java.version>1.8</java.version>

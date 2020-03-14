@@ -1,6 +1,5 @@
 package ua.kiev.prog.chatserver.chat;
 
-import com.google.gson.Gson;
 import ua.kiev.prog.chatserver.chat.message.Messages;
 import ua.kiev.prog.chatserver.chat.message.PrivateMessage;
 import ua.kiev.prog.chatserver.chat.message.PublicMessage;
@@ -8,10 +7,10 @@ import ua.kiev.prog.chatserver.chat.participant.Participant;
 import ua.kiev.prog.chatserver.chat.participant.Participants;
 
 import java.util.List;
+import java.util.Map;
 
 public class Chat {
 
-    private static final Gson GSON = new Gson();
     private Participants participants;
     private Messages messages;
 
@@ -20,8 +19,8 @@ public class Chat {
         this.messages = new Messages();
     }
 
-    public String participants() {
-        return GSON.toJson(participants.participants());
+    public List<String> participants() {
+        return participants.participants();
     }
 
     public List<String> add(String nickname) {
@@ -29,22 +28,17 @@ public class Chat {
         return this.participants.participants();
     }
 
-    public void add(String fromNickname, String message) {
-        Participant participant = participants.find(fromNickname);
-        if (participant != null) {
-            this.messages.add(new PublicMessage(participant, message));
-        }
-    }
-
-    public void add(String fromNickname, String toNickname, String message) {
+    public void write(String fromNickname, String toNickname, String message) {
         Participant fromParticipant = participants.find(fromNickname);
-        Participant toParticipant = participants.find(toNickname);
-        if (fromParticipant != null && toNickname != null) {
+        if (toNickname == null) {
+            this.messages.add(new PublicMessage(fromParticipant, message));
+        } else {
+            Participant toParticipant = participants.find(toNickname);
             this.messages.add(new PrivateMessage(fromParticipant, toParticipant, message));
         }
     }
 
-    public List<String> messages(String nickName) {
+    public List<Map<String, String>> messages(String nickName) {
         Participant participant = participants.find(nickName);
         if (participant != null) {
             return messages.messages(participant);

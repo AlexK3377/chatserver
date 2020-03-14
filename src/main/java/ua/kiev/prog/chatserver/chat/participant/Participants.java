@@ -11,11 +11,18 @@ public class Participants {
     }
 
     public void add(String nickname) {
+        if (this.participants.containsKey(nickname)) {
+            throw new RuntimeException("Participant already exists");
+        }
         this.participants.put(nickname, new Participant(nickname));
     }
 
     public Participant find(String nickname) {
-        return participants.get(nickname);
+        Participant participant = participants.get(nickname);
+        if (participant == null) {
+            throw new RuntimeException("Participant not found");
+        }
+        return participant;
     }
 
     public List<String> participants() {

@@ -9,9 +9,9 @@ public class App {
         chat.add("vasya");
         chat.add("petya");
         chat.add("sergey");
-        chat.add("vasya", "Hello!");
-        chat.add("petya", "Hello!");
-        chat.add("sergey", "vasya", "Hello vasya!");
+        chat.write("vasya", null, "Hello!");
+        chat.write("petya", null, "Hello!");
+        chat.write("sergey", "vasya", "Hello vasya!");
 
         System.out.println(chat.messages("vasya"));
         System.out.println();

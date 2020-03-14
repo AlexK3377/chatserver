@@ -1,16 +1,14 @@
 package ua.kiev.prog.chatserver.chat.message;
 
-import com.google.gson.Gson;
 import ua.kiev.prog.chatserver.chat.participant.Participant;
 
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 public class PrivateMessage implements Message {
-
-    private static final Gson GSON = new Gson();
 
     private Participant from;
     private Participant to;
@@ -25,11 +23,11 @@ public class PrivateMessage implements Message {
     }
 
     @Override
-    public String message(Participant participant) {
+    public Map<String, String> message(Participant participant) {
         if (this.to.equals(participant) || this.from.equals(participant)) {
-            return GSON.toJson(this.toMap());
+            return this.toMap();
         }
-        return "";
+        return Collections.emptyMap();
     }
 
     private Map<String, String> toMap() {
@@ -37,7 +35,7 @@ public class PrivateMessage implements Message {
         result.put("date", date.toString());
         result.put("from", from.toString());
         result.put("to", to.toString());
-        result.put("body", body.toString());
+        result.put("body", body);
         return result;
     }
 }
