@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import ua.kiev.prog.chatserver.chat.Chats;
 import ua.kiev.prog.chatserver.servlet.api.ChatsResponseBody;
 import ua.kiev.prog.chatserver.servlet.api.CreateChatResponseBody;
+import ua.kiev.prog.chatserver.servlet.api.DeleteChatRequestBody;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -27,5 +28,11 @@ public class ChatsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ChatsResponseBody chatsResponseBody = new ChatsResponseBody(chats.chats());
         resp.getWriter().println(GSON.toJson(chatsResponseBody));
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        DeleteChatRequestBody deleteChatRequestBody = GSON.fromJson(req.getReader(), DeleteChatRequestBody.class);
+        chats.delete(deleteChatRequestBody.getChatId());
     }
 }

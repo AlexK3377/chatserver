@@ -24,6 +24,10 @@ public class Chats {
         return chatId;
     }
 
+    public void delete(Integer id) {
+        chats.remove(id);
+    }
+
     public Set<Integer> chats() {
         return chats.keySet();
     }
